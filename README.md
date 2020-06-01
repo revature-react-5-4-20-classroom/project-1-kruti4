@@ -1,6 +1,3 @@
-# project-1-kruti4
-project-1-kruti4 created by GitHub Classroom
-https://github.com/revature-react-5-4-20-classroom/project-1-kruti4/new/master?readme=1
 # Expense Reimbursement System (ERS) 
 
 The Expense Reimbursement System (ERS) will manage the process of reimbursing employees for expenses incurred while on company time. All employees in the company can login and submit requests for reimbursement and view their past tickets and pending requests. Finance managers can log in and view all reimbursement requests and past history for all employees in the company. Finance managers are authorized to approve and deny requests for expense reimbursement.
