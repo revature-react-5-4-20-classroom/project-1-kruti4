@@ -14,9 +14,9 @@ export async function login(un: string, pw: string): Promise<User> {
         const response = await loginClient.post('/login', { username: un, password: pw });
         
         
-        const { userId, userName, password, email, role } = response.data;
+        const {  userId, userName, password,firstName,lastName, email, role  } = response.data;
         console.log("server responce api "+userId);
-        return new User(userId, userName, password, email, role);
+        return new User( userId, userName, password,firstName,lastName, email, role );
     } catch (e) {
         if (e.response.status === 401) {
             throw new FailedLoginError('Failed to authenticate', un);

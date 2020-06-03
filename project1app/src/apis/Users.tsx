@@ -14,7 +14,17 @@ export async function getAllUsers(): Promise<User[]> {
     console.log("server responce"+response.data);
     
     return response.data.map((userObj: any) => {
-        const { userId, username, password, email, role } = userObj;
-        return new User(userId, username, password, email, role);
+        const {   userId, userName, password,firstName,lastName, email, role } = userObj;
+        return new User(  userId, userName, password,firstName,lastName, email, role);
     });
+}
+
+export async function getUsersById(id:number): Promise<User> {
+    const response = await userClient.get('/users/'+id);
+    console.log("server responce"+response.data);
+    const {  userId, userName, password,firstName,lastName, email, role } = response.data;
+    return new User(  userId, userName, password,firstName,lastName, email, role )
+    //     const { userId, username, password, email, role } = userObj;
+    //     return new User(userId, username, password, email, role);
+    // });
 }
