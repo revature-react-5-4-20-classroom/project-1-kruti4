@@ -71,7 +71,7 @@ export class LoginComponent extends React.Component<ILoginComponentProps, ILogin
 
   render() {
     return (
-      <div>
+      <div className="center">
         <Form onSubmit={this.attemptLogin}>
           <FormGroup row>
             <Label for="username" sm={2}>Username</Label>

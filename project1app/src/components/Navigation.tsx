@@ -11,10 +11,10 @@ export class NavbarComponent extends React.Component<any,any> {
         <NavbarBrand href="/">home</NavbarBrand>
         <Nav className="mr-auto" navbar>
           <NavItem>
-            <NavLink to="/clicker">Profile</NavLink>
+            <NavLink to="/users">Profile</NavLink>
           </NavItem>
           <NavItem>
-            <NavLink to="/hello">Reimbursement</NavLink>
+            <NavLink to="/reimbursement">Reimbursement</NavLink>
           </NavItem>
           <NavItem>
             <NavLink to="/login">login</NavLink>
