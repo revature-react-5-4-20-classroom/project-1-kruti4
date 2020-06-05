@@ -110,3 +110,43 @@ export async function submitReimbursement(
     type
   );
 }
+
+
+export async function updateReimburement(
+  reim: Reimbursement
+): Promise<Reimbursement> {
+  const response = await reimbursementClient.patch("/reimbursements", {
+    reimbursementId: 0,
+    author: reim.author,
+    amount: reim.amount,
+    dateSubmitted: new Date(),
+    dateResolved: new Date(),
+    description: reim.description,
+    resolver: reim.resolver,
+    status: 2,
+    type: reim.type,
+  });
+  const {
+    reimbursementId,
+    author,
+    amount,
+    dateSubmitted,
+    dateResolved,
+    description,
+    resolver,
+    status,
+    type,
+  } = response.data;
+
+  return new Reimbursement(
+    reimbursementId,
+    author,
+    amount,
+    dateSubmitted,
+    dateResolved,
+    description,
+    resolver,
+    status,
+    type
+  );
+}

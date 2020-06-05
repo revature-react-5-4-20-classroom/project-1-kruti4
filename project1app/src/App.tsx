@@ -33,7 +33,7 @@ export class App extends React.Component<any, IAppState> {
           <h1>
             Hello{" "}
             {this.state.loggedInUser
-              ? this.state.loggedInUser.username
+              ? this.state.loggedInUser.userName
               : "guest"}
           </h1>
         </div>

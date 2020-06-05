@@ -3,31 +3,42 @@ import React from "react";
 
 import { getAllReimbursementByUserId } from "../apis/Reimbursement";
 import Reimbursement from "../models/Reimbursement";
+import { ObjectTable } from "./object-table";
+import { Spinner } from "reactstrap";
 // import { Container, Row, CardDeck, Card } from "reactstrap";
+interface IAllReimbursementByUserState {
+  responce: Reimbursement[];
+  isData: Boolean;
+}
 
-export class AllReimbursementByUser extends React.Component<any, any> {
+export class AllReimbursementByUser extends React.Component<
+  any,
+  IAllReimbursementByUserState
+> {
   constructor(props: Reimbursement) {
     super(props);
     this.state = {
       //   user_id: 0,
       //   username: "",
       //   email: "",
-      idArg: 1,
-      responce: "any",
-      parsed: (d: string) => {
-        return JSON.parse(d);
-      },
+      responce: [],
+      isData: false,
     };
   }
 
   getData = async (id: any) => {
     console.log("id is" + id.currentTarget.value);
-
-    await this.setState({
-      responce: JSON.stringify(
-        await getAllReimbursementByUserId(id.currentTarget.value)
-      ),
-    });
+    try {
+      await this.setState({
+        responce: await getAllReimbursementByUserId(id.currentTarget.value),
+        isData: true,
+      });
+      // {this.state.responce !== []?this.state
+      //   isData: false;
+      // }
+    } catch (e) {
+      console.log(e);
+    }
   };
 
   render() {
@@ -35,7 +46,7 @@ export class AllReimbursementByUser extends React.Component<any, any> {
       <>
         <br />
         <label htmlFor="">Enter User Id</label>
-        <input onChange={this.getData} type="text"/>
+        <input onChange={this.getData} type="text" />
         {/* <select onChange={this.getData} name="User">
           <option value="1" selected>
             Approved
@@ -44,8 +55,13 @@ export class AllReimbursementByUser extends React.Component<any, any> {
           <option value="3">Denied</option>
         </select> */}
         <h4>get all reimbursement</h4>
-       
-        <h5> {this.state.responce}</h5>
+        <div style={{ display: this.state.isData ? "block" : "none" }}>
+          {this.state.isData ? (
+            <ObjectTable objects={this.state.responce} />
+          ) : (
+            <Spinner />
+          )}
+        </div>
       </>
     );
   }

@@ -3,6 +3,8 @@ import React from "react";
 
 import { getAllReimbursementByStatusId } from "../apis/Reimbursement";
 import Reimbursement from "../models/Reimbursement";
+import { ObjectTable } from "./object-table";
+import { Spinner } from "reactstrap";
 // import { Container, Row, CardDeck, Card } from "reactstrap";
 
 export class AllReimbursementByStatus extends React.Component<any, any> {
@@ -14,14 +16,13 @@ export class AllReimbursementByStatus extends React.Component<any, any> {
       //   email: "",
       idArg: 1,
       responce: "any",
-      parsed: (d: string) => {
-        return JSON.parse(d);
-      },
+      isData: false,
     };
   }
   async componentDidMount() {
     this.setState({
-      responce: JSON.stringify(await getAllReimbursementByStatusId(1)),
+      responce: await getAllReimbursementByStatusId(2),
+      isData: true,
     });
   }
   // updateid(id:any){
@@ -33,9 +34,8 @@ export class AllReimbursementByStatus extends React.Component<any, any> {
     console.log("id is" + id.currentTarget.value);
 
     await this.setState({
-      responce: JSON.stringify(
-        await getAllReimbursementByStatusId(id.currentTarget.value)
-      ),
+      responce: await getAllReimbursementByStatusId(id.currentTarget.value),
+      isData: true,
     });
   };
 
@@ -45,15 +45,21 @@ export class AllReimbursementByStatus extends React.Component<any, any> {
         <br />
         <label htmlFor="">select reimbursement status</label>
         <select onChange={this.getData} name="status">
-          <option value="1" selected>
-            Approved
+          <option value="2" selected>
+            Pending
           </option>
-          <option value="2">Pending</option>
+          <option value="1">Approved</option>
           <option value="3">Denied</option>
         </select>
-        <h4>get all reimbursement</h4>
-     
-        <h5> {this.state.responce}</h5>
+        {/* <h4>get all reimbursement</h4> */}
+
+        <div style={{ display: this.state.isData ? "block" : "none" }}>
+          {this.state.isData ? (
+            <ObjectTable objects={this.state.responce} />
+          ) : (
+            <Spinner />
+          )}
+        </div>
       </>
     );
   }
