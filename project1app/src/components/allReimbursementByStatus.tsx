@@ -3,7 +3,7 @@ import React from "react";
 
 import { getAllReimbursementByStatusId } from "../apis/Reimbursement";
 import Reimbursement from "../models/Reimbursement";
-import { ObjectTable } from "./object-table";
+import { ObjectTable } from "./userDisplayTable";
 import { Spinner } from "reactstrap";
 // import { Container, Row, CardDeck, Card } from "reactstrap";
 
@@ -42,23 +42,25 @@ export class AllReimbursementByStatus extends React.Component<any, any> {
   render() {
     return (
       <>
-        <br />
-        <label htmlFor="">select reimbursement status</label>
-        <select onChange={this.getData} name="status">
-          <option value="2" selected>
-            Pending
-          </option>
-          <option value="1">Approved</option>
-          <option value="3">Denied</option>
-        </select>
-        {/* <h4>get all reimbursement</h4> */}
+        <div>
+          <label htmlFor="">select reimbursement status</label>
+          <select defaultValue="2" onChange={this.getData} name="status">
+            <option value="2" >
+              Pending
+            </option>
+            <option value="1">Approved</option>
+            <option value="3">Denied</option>
+          </select>
+          {/* <h4>get all reimbursement</h4> */}
 
-        <div style={{ display: this.state.isData ? "block" : "none" }}>
-          {this.state.isData ? (
-            <ObjectTable objects={this.state.responce} />
-          ) : (
-            <Spinner />
-          )}
+          <div style={{ display: this.state.isData ? "block" : "none" }}>
+            {this.state.isData ? (
+              // <ObjectTable objects={this.state.responce} />
+              <h2>data is here</h2>
+            ) : (
+              <Spinner />
+            )}
+          </div>
         </div>
       </>
     );

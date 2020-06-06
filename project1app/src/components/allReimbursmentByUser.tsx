@@ -3,7 +3,7 @@ import React from "react";
 
 import { getAllReimbursementByUserId } from "../apis/Reimbursement";
 import Reimbursement from "../models/Reimbursement";
-import { ObjectTable } from "./object-table";
+import { ObjectTable } from "./userDisplayTable";
 import { Spinner } from "reactstrap";
 // import { Container, Row, CardDeck, Card } from "reactstrap";
 interface IAllReimbursementByUserState {
@@ -57,7 +57,8 @@ export class AllReimbursementByUser extends React.Component<
         <h4>get all reimbursement</h4>
         <div style={{ display: this.state.isData ? "block" : "none" }}>
           {this.state.isData ? (
-            <ObjectTable objects={this.state.responce} />
+            // <ObjectTable objects={this.state.responce} />
+            <h2>data arrived</h2>
           ) : (
             <Spinner />
           )}

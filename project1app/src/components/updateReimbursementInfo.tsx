@@ -56,8 +56,8 @@ export class UpdateReimburement extends React.Component<
             required
             onChange={this.bindInputChangeToState}
             name="type"
-            value={this.props.type} disabled>
-            <option value="1">
+            defaultValue={this.props.type} disabled>
+            <option defaultValue="1">
               Lodging
             </option>
             <option value="2">Travel</option>
@@ -69,7 +69,7 @@ export class UpdateReimburement extends React.Component<
             type="number"
             id="amount"
             name="amount"
-            value={this.props.amount}
+            defaultValue={this.props.amount}
             required
             onChange={this.bindInputChangeToState}
           />
@@ -107,7 +107,7 @@ export class UpdateReimburement extends React.Component<
             id="resolver"
             name="resolver"
             required
-            value={this.props.resolver}
+            defaultValue={this.props.resolver}
             disabled
             onChange={this.bindInputChangeToState}
           />

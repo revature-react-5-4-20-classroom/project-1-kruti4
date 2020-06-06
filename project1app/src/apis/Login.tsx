@@ -12,11 +12,12 @@ const loginClient = axios.create({
 export async function login(un: string, pw: string): Promise<User> {
     try {
         const response = await loginClient.post('/login', { username: un, password: pw });
+        let r: string = response.data.role.role;
+        let ri: number = response.data.role.roleId;
         
-        
-        const {  userId, userName, password,firstName,lastName, email, role  } = response.data;
+        const {  userId, userName, password,firstName,lastName, email } = response.data;
         console.log("server responce api "+userId);
-        return new User( userId, userName, password,firstName,lastName, email, role );
+        return new User( userId, userName, password,firstName,lastName, email, r,ri );
     } catch (e) {
         if (e.response.status === 401) {
             throw new FailedLoginError('Failed to authenticate', un);

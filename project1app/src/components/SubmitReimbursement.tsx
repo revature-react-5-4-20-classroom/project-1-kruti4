@@ -4,19 +4,33 @@ import { submitReimbursement } from "../apis/Reimbursement";
 interface INewReimbursementFormProps {
   addReimbursement: () => void;
 }
-export class submitNewReimbursement extends React.Component<
-  INewReimbursementFormProps,
-  Reimbursement
-> {
+interface INewReimbursementFormStates{
+   reimbursementId:number,
+    author:number,
+    amount:number,
+    dateSubmitted:string,
+    dateResolved:string,
+    description:string,
+    resolver:number,
+    status:number,
+    type:number,
+}
+export class SubmitNewReimbursement extends React.Component<any, any> {
   constructor(props: any) {
     super(props);
-    // this.state = {
-    //     dvalue:null,
-    //   }
-    // Reimbursement;
-   
+    this.state={
+      reimbursementId:0,
+      author:this.props.loggedInUser.userId,
+      amount:0,
+      dateSubmitted:"",
+      dateResolved:"",
+      resolver:2,
+      status:2,
+      type:0,
+    }
   }
-  formSubmit = async () => {
+  formSubmit = async (event:any) => {
+    event.preventDefault()
     const reOb: Reimbursement = new Reimbursement(
       0,
       this.state.author,
@@ -26,9 +40,12 @@ export class submitNewReimbursement extends React.Component<
       this.state.description,
       this.state.resolver,
       2,
-      this.state.type,
+      this.state.type
     );
-    Response: await submitReimbursement(reOb);
+    this.setState({
+      response: await submitReimbursement(reOb),
+    });
+
     // reimbursementId,
     // author,
     // amount,
@@ -55,14 +72,20 @@ export class submitNewReimbursement extends React.Component<
             required
             onChange={this.bindInputChangeToState}
             name="type"
-          >
-            <option value="1" selected>Lodging</option>
+           >
+            <option defaultValue="1">Lodging</option>
             <option value="2">Travel</option>
             <option value="3">Food</option>
             <option value="4">Other</option>
           </select>
           <label htmlFor="">Amount:$</label>
-          <input type="number" id="amount" name="amount" required onChange={this.bindInputChangeToState} />
+          <input
+            type="number"
+            id="amount"
+            name="amount"
+            required
+            onChange={this.bindInputChangeToState}
+          />
           {/* <label htmlFor="">Recipt image</label>
           <input type="file" required /> */}
           <label htmlFor="">Date:</label>
@@ -70,7 +93,7 @@ export class submitNewReimbursement extends React.Component<
             type="date"
             name="dateSubmitted"
             id="dateSubmitted"
-            value={new Date().toISOString().substring(0, 10)}
+            defaultValue={new Date().toISOString().substring(0, 10)}
             disabled
           ></input>
           {/* <label htmlFor="">Date:</label> */}
@@ -78,13 +101,25 @@ export class submitNewReimbursement extends React.Component<
             type="date"
             name="dateResolved"
             id="dateResolved"
-            value={new Date().toISOString().substring(0, 10)}
+            defaultValue={new Date().toISOString().substring(0, 10)}
             hidden
           ></input>
           <label htmlFor="">Discription</label>
-          <input type="text" id="description" name="description" required onChange={this.bindInputChangeToState}/>
+          <input
+            type="text"
+            id="description"
+            name="description"
+            required
+            onChange={this.bindInputChangeToState}
+          />
           <label htmlFor="">Resolver</label>
-          <input type="number" id="resolver" name="resolver" required onChange={this.bindInputChangeToState}/>
+          <input
+            type="number"
+            id="resolver"
+            name="resolver"
+            required
+            onChange={this.bindInputChangeToState}
+          />
 
           <button type="submit">Submit</button>
         </form>

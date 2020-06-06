@@ -1,7 +1,12 @@
 import React from "react";
 import { NavbarComponent } from "./components/Navigation";
 import { LoginComponent } from "./components/Login";
-import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Route,
+  Switch,
+  Redirect,
+} from "react-router-dom";
 import { User } from "./models/Users";
 import { AllUsers } from "./components/allUsers";
 import { MultiRoute } from "./components/multiRoutReimbursement";
@@ -24,37 +29,69 @@ export class App extends React.Component<any, IAppState> {
       loggedInUser: user,
     });
   };
-
+  logoutUser = () => {
+    this.setState({
+      loggedInUser: null,
+    });
+  };
   render() {
     return (
       <>
-        <div>
-          <h3>hello</h3>
+        <div className="App">
+          {/* <h3>hello</h3>
           <h1>
             Hello{" "}
             {this.state.loggedInUser
               ? this.state.loggedInUser.userName
               : "guest"}
-          </h1>
-        </div>
-        <Router>
-          <NavbarComponent />
-          <Switch>
-            {/* <Route path='/home' >
-            </Route> */}
-            <Route path="/login">
-              <LoginComponent updateUser={this.updateUser} />
-            </Route>
-            <Route
-              path="/users"
-              component={AllUsers}
-              users={this.updateUser}
-            ></Route>
-            <Route path="/reimbursement" component={MultiRoute}></Route>
+          </h1> */}
 
-            <Route path="/logout"></Route>
-          </Switch>
-        </Router>
+          <Router>
+            <NavbarComponent
+              logoutUser={this.logoutUser}
+              loggedInUser={this.state.loggedInUser}
+            />
+            <Switch>
+              <Route exact path="/">
+                {this.state.loggedInUser ? (
+                  <Redirect to="/home" />
+                ) : (
+                  <Redirect to="/login" />
+                )}
+              </Route>
+              <Route
+                path="/login"
+                render={(props: any) => {
+                  return (
+                    <LoginComponent {...props} path="/login" updateUser={this.updateUser} />
+                  );
+                }}
+              />
+              {/* // <LoginComponent updateUser={this.updateUser} /> */}
+              {/* </Route> */}
+              <Route path="/home">
+                <h2>
+                  Welcome{" "}
+                  {this.state.loggedInUser
+                    ? `${this.state.loggedInUser.userName}!`
+                    : "guest!"}
+                </h2>
+              </Route>
+              <Route
+                loggedInUser={this.state.loggedInUser}
+                path="/users"
+                // component={AllUsers}
+                // users={this.updateUser}
+              >
+                <AllUsers loggedInUser={this.state.loggedInUser} path="/users" />
+              </Route>
+              <Route>
+                <MultiRoute loggedInUser={this.state.loggedInUser} path="/reimbursement"/>
+              </Route>
+              <Route path="/logout"></Route>
+            </Switch>
+          </Router>
+        </div>
       </>
     );
   }
