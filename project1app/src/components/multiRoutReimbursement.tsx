@@ -70,7 +70,7 @@ export class MultiRoute extends React.Component<any, any> {
           </Route>
 
           <Route path={`${this.props.path}`}>
-            <SubmitNewReimbursement loggedInUser={this.props.loggedInUser} />
+            <SubmitNewReimbursement loggedInUser={this.props.loggedInUser} path={`${this.props.path}`}/>
           </Route>
         </Switch>
       </>

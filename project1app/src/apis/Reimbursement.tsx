@@ -75,55 +75,63 @@ export async function getAllReimbursementByUserId(
 export async function submitReimbursement(
   reim: Reimbursement
 ): Promise<Reimbursement> {
-  const response = await reimbursementClient.post("/reimbursements", {
-    reimbursementId: 0,
-    author: reim.author,
-    amount: reim.amount,
-    dateSubmitted: reim.dateSubmitted,
-    dateResolved: reim.dateResolved,
-    description: reim.description,
-    resolver: reim.resolver,
-    status: reim.status,
-    type: reim.type,
-  });
-  const {
-    reimbursementId,
-    author,
-    amount,
-    dateSubmitted,
-    dateResolved,
-    description,
-    resolver,
-    status,
-    type,
-  } = response.data;
-
-  return new Reimbursement(
-    reimbursementId,
-    author,
-    amount,
-    dateSubmitted,
-    dateResolved,
-    description,
-    resolver,
-    status,
-    type
-  );
+  try {
+    const response = await reimbursementClient.post("/reimbursements",{
+      reimbursementId:0,
+      author: reim.author,
+      amount: reim.amount,
+      dateSubmitted:reim.dateSubmitted,
+      dateResolved: reim.dateResolved,
+      description: reim.description,
+      resolver: reim.resolver,
+      status: 2,
+      type: reim.type,
+    });
+    const {
+      reimbursementId,
+      author,
+      amount,
+      dateSubmitted,
+      dateResolved,
+      description,
+      resolver,
+      status,
+      type,
+    } = response.data;
+     return new Reimbursement(
+      reimbursementId,
+      author,
+      amount,
+      dateSubmitted,
+      dateResolved,
+      description,
+      resolver,
+      status,
+      type
+    );
+  } catch (e) {
+    if (e.response.status === 401) {
+      throw new Error(`Failed to authenticate with username`);
+    } else {
+      console.log(e);
+      throw new Error("There was a problem logging in");
+      
+    }
+  }
 }
-
 
 export async function updateReimburement(
   reim: Reimbursement
 ): Promise<Reimbursement> {
   const response = await reimbursementClient.patch("/reimbursements", {
-    reimbursementId: 0,
+    reimbursementId: reim.reimbursementId,
     author: reim.author,
     amount: reim.amount,
-    dateSubmitted: new Date(),
+    dateSubmitted: reim.dateSubmitted,
     dateResolved: new Date(),
     description: reim.description,
     resolver: reim.resolver,
-    status: 2,
+    status: reim.status,
     type: reim.type,
   });
   const {

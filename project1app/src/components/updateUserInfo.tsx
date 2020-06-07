@@ -1,8 +1,9 @@
 import React from "react";
-import { ObjectTable } from "./userDisplayTable";
+// import { UserDisplayTable } from "./userDisplayTable";
 import { updateUser } from "../apis/Users";
 import { User } from "../models/Users";
 import { FormGroup, Form, Label, Container, Row, Col, Input } from "reactstrap";
+import { login } from "../apis/Login";
 interface IUpdateUserState {
   userId: number;
   userName: string;
@@ -43,8 +44,8 @@ export class UpdateUser extends React.Component<any, IUpdateUserState> {
   // componentDidMount = () => {
   //   this.setState({});
   // npm };
-  update = async (event:any) => {
-    event.preventDefault()
+  update = async (event: any) => {
+    event.preventDefault();
     const uObj = new User(
       this.props.user.userId,
       this.state.userName,
@@ -55,9 +56,14 @@ export class UpdateUser extends React.Component<any, IUpdateUserState> {
       this.props.user.role,
       this.props.user.roleid
     );
+    await login("user0", "lkjhg");
     this.setState({
       responce: await updateUser(uObj),
     });
+    await login(
+      this.props.loggedInUser.userName,
+      this.props.loggedInUser.password
+    );
   };
   initialBind = () => {
     this.setState({

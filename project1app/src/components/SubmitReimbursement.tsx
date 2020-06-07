@@ -118,10 +118,11 @@ export class SubmitNewReimbursement extends React.Component<any, any> {
                     onChange={this.bindInputChangeToState}
                     name="type"
                   >
-                    <option defaultValue="1">Lodging</option>
+                    <option defaultValue="4">Other</option>
+                    <option value="1">Lodging</option>
                     <option value="2">Travel</option>
                     <option value="3">Food</option>
-                    <option value="4">Other</option>
+                    
                   </select>
                 </FormGroup>
                 <FormGroup>

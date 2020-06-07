@@ -1,23 +1,33 @@
 import React from "react";
 import { Table, Button } from "reactstrap";
-import { UpdateUser } from "./updateUserInfo";
+// import { UpdateUser } from "./updateUserInfo";
 import { User } from "../models/Users";
+import Reimbursement from "../models/Reimbursement";
+import { UpdateReimburement } from "./updateReimbursementInfo";
 
 interface IObjectTableProps {
-  objects: User[];
+  objects: Reimbursement[];
+  loggedInUser: User;
 }
 
 /** Quick reactstrap table that builds a table out of props.objects.  All objects should have the same fields in order.*/
-export class ObjectTable extends React.Component<IObjectTableProps, any> {
+export class ReimbursementDisplayTable extends React.Component<
+  IObjectTableProps,
+  any
+> {
   constructor(props: IObjectTableProps) {
     super(props);
     this.state = {
-      userObj: "",
+      ReimbursementrObj: "",
       flag: false,
     };
   }
-  callUpdateUser = () => {
+  callUpdate = (event: any) => {
+    // event.preventDefault();
+    console.log(event);
+    
     this.setState({
+      ReimbursementrObj: event,
       flag: true,
     });
   };
@@ -30,7 +40,7 @@ export class ObjectTable extends React.Component<IObjectTableProps, any> {
   render() {
     return (
       <>
-        <Table striped>
+        <Table striped style={{ display: !this.state.flag ? "block" : "none" }}>
           <thead>
             <tr>
               {/* Generate one column header for each key on the first object in props.objects */}
@@ -43,28 +53,37 @@ export class ObjectTable extends React.Component<IObjectTableProps, any> {
             {/* Generate one row per object with a cell for each value on the object */}
             {this.props.objects.map((obj: any, index: number) => {
               return (
-                <>
-                  <tr key={index}>
-                    {Object.values(obj).map((value: any, index: number) => {
-                      return <td key={index}>{value}</td>;
-                    })}
-                  </tr>
-                  <tr>
-                    <Button
-                      onClick={this.callUpdateUser}
-                      name="userObj"
-                      value="obj"
+                <tr>
+                  {Object.values(obj).map((value: any, index: number) => {
+                    return <td key={index}>{value}</td>;
+                  })}
+                  <td
+                    style={{
+                      display:
+                        this.props.loggedInUser.role === "finance-manager"
+                          ? "block"
+                          : "none",
+                    }}
+                  >
+                    <Button value={obj}
+                      onClick={(e)=>{e.preventDefault();this.callUpdate(obj)}}
+                      // name="ReimbursementrObj"
+                      // object={obj}
                     >
                       Update
                     </Button>
-                  </tr>
-                </>
+                  </td>
+                </tr>
               );
             })}
           </tbody>
         </Table>
-        <div>
-          <UpdateUser user={this.state.userObj} />
+
+        <div style={{ display: this.state.flag ? "block" : "none" }}>
+          <UpdateReimburement
+            reimbursement={this.state.ReimbursementrObj}
+            loggedInUser={this.props.loggedInUser}
+          />
         </div>
       </>
     );

@@ -3,7 +3,7 @@ import React from "react";
 import { User } from "../models/Users";
 import { getAllUsers, getUsersById } from "../apis/Users";
 import { Container, Row, CardDeck, Card, Spinner, Col } from "reactstrap";
-import { ObjectTable } from "./userDisplayTable";
+import { UserDisplayTable } from "./userDisplayTable";
 import { UpdateUser } from "./updateUserInfo";
 interface IAllUsersState {
   responceLoggedUser: User;
@@ -49,7 +49,7 @@ export class AllUsers extends React.Component<any, any> {
   };
   getUserById = async (id: any) => {
     this.setState({
-      allUser: await getUsersById(id.currentTarget.value),
+      responceLoggedUser: await getUsersById(id.currentTarget.value),
       flag: true,
       flag2: false,
     });
@@ -83,11 +83,14 @@ export class AllUsers extends React.Component<any, any> {
                 </button>
                 <div style={{ display: this.state.flag2 ? "block" : "none" }}>
                   <label htmlFor="">Enter User Id</label>
-                  <input type="text" onChange={this.getUserById} />
+                  <input type="number" onChange={this.getUserById} />
                 </div>
                 <div style={{ display: this.state.flag2 ? "block" : "none" }}>
                   {this.state.flag2 ? (
-                    <ObjectTable objects={this.state.allUser} />
+                    <UserDisplayTable
+                      objects={this.state.allUser}
+                      loggedInUser={this.props.loggedInUser}
+                    />
                   ) : (
                     <Spinner />
                   )}
@@ -115,7 +118,16 @@ export class AllUsers extends React.Component<any, any> {
                     <p>{this.state.responceLoggedUser.password}</p>
                     <p>{this.state.responceLoggedUser.email}</p>
                     <p>{this.state.responceLoggedUser.role}</p>
-                    <button onClick={this.updateUser}>update</button>
+                    <button
+                      style={{
+                        display: (this.props.loggedInUser.userId == this.state.responceLoggedUser.userId)
+                          ? "block"
+                          : "none",
+                      }}
+                      onClick={this.updateUser}
+                    >
+                      update
+                    </button>
                   </Card>
                 </CardDeck>
               </Col>
@@ -123,7 +135,12 @@ export class AllUsers extends React.Component<any, any> {
           </Container>
         </div>
         <div style={{ display: this.state.formFlag ? "block" : "none" }}>
-          <UpdateUser  {...this.props} user={this.state.responceLoggedUser} loggedInUser={this.props.loggedInUser} />
+          
+          <UpdateUser
+            {...this.props}
+            user={this.state.responceLoggedUser}
+            loggedInUser={this.props.loggedInUser}
+          />
         </div>
         <h2 style={{ display: !this.props.loggedInUser ? "block" : "none" }}>
           You Need to Login
