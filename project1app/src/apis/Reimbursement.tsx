@@ -79,11 +79,11 @@ export async function submitReimbursement(
     reimbursementId: 0,
     author: reim.author,
     amount: reim.amount,
-    dateSubmitted: new Date(),
-    dateResolved: new Date(),
+    dateSubmitted: reim.dateSubmitted,
+    dateResolved: reim.dateResolved,
     description: reim.description,
     resolver: reim.resolver,
-    status: 2,
+    status: reim.status,
     type: reim.type,
   });
   const {

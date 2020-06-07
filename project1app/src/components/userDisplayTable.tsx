@@ -5,10 +5,11 @@ import { User } from "../models/Users";
 
 interface IObjectTableProps {
   objects: User[];
+  loggedInUser: User;
 }
 
 /** Quick reactstrap table that builds a table out of props.objects.  All objects should have the same fields in order.*/
-export class ObjectTable extends React.Component<IObjectTableProps, any> {
+export class UserDisplayTable extends React.Component<IObjectTableProps, any> {
   constructor(props: IObjectTableProps) {
     super(props);
     this.state = {
@@ -16,11 +17,6 @@ export class ObjectTable extends React.Component<IObjectTableProps, any> {
       flag: false,
     };
   }
-  callUpdateUser = () => {
-    this.setState({
-      flag: true,
-    });
-  };
   bindInputChangeToState = (changeEvent: any) => {
     //@ts-ignore
     this.setState({
@@ -49,23 +45,11 @@ export class ObjectTable extends React.Component<IObjectTableProps, any> {
                       return <td key={index}>{value}</td>;
                     })}
                   </tr>
-                  <tr>
-                    <Button
-                      onClick={this.callUpdateUser}
-                      name="userObj"
-                      value="obj"
-                    >
-                      Update
-                    </Button>
-                  </tr>
                 </>
               );
             })}
           </tbody>
         </Table>
-        <div  style={{display:this.state.flag?"block":"none"}}>
-          <UpdateUser user={this.state.userObj} />
-        </div>
       </>
     );
   }

@@ -3,8 +3,9 @@ import React from "react";
 
 import { getAllReimbursementByStatusId } from "../apis/Reimbursement";
 import Reimbursement from "../models/Reimbursement";
-import { ObjectTable } from "./userDisplayTable";
+// import { ObjectTable } from "./userDisplayTable";
 import { Spinner } from "reactstrap";
+import { ReimbursementDisplayTable } from "./reimbursementDisplayTable";
 // import { Container, Row, CardDeck, Card } from "reactstrap";
 
 export class AllReimbursementByStatus extends React.Component<any, any> {
@@ -55,8 +56,8 @@ export class AllReimbursementByStatus extends React.Component<any, any> {
 
           <div style={{ display: this.state.isData ? "block" : "none" }}>
             {this.state.isData ? (
-              // <ObjectTable objects={this.state.responce} />
-              <h2>data is here</h2>
+              <ReimbursementDisplayTable objects={this.state.responce} loggedInUser={this.props.loggedInUser} />
+              // <h2>data is here</h2>
             ) : (
               <Spinner />
             )}
