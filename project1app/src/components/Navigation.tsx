@@ -11,45 +11,90 @@ export class NavbarComponent extends React.Component<ITopNavProps, any> {
   render() {
     return (
       <div>
-        {/* just writing the name of a prop is shorthand for prop={true}*/}
+        {/*just writing the name of a prop is shorthand for prop={true}*/}
         <Navbar color="light" light expand="md">
-          <NavbarBrand href="/">home</NavbarBrand>
+          <NavbarBrand href="/">NameError Ltd.</NavbarBrand>
           <Nav className="mr-auto" navbar>
             <NavItem>
-              <NavLink to="/home" className="nav-link" activeClassName="active">
+              <NavLink
+                to="/home"
+                color="secondary"
+                className="nav-link"
+                activeClassName="active"
+              >
                 Home
               </NavLink>
             </NavItem>
             <NavItem>
-              <NavLink hidden={!this.props.loggedInUser} to="/users">
+              <NavLink
+                color="secondary"
+                hidden={!this.props.loggedInUser}
+                className="nav-link"
+                to="/users"
+              >
                 Profile
               </NavLink>
             </NavItem>
             <NavItem>
-              <NavLink hidden={!this.props.loggedInUser} to="/reimbursement">
+              <NavLink
+                color="secondary"
+                activeClassName="active"
+                hidden={!this.props.loggedInUser}
+                className="nav-link"
+                to="/reimbursement"
+              >
                 Reimbursement
               </NavLink>
             </NavItem>
             <NavItem>
-              <NavLink hidden={!!this.props.loggedInUser} to="/login">
+              <NavLink
+                color="secondary"
+                activeClassName="active"
+                hidden={!!this.props.loggedInUser}
+                className="nav-link"
+                to="/login"
+              >
                 login
               </NavLink>
             </NavItem>
-
-            <NavItem
+            {/* <NavItem
               tag={() => {
                 return (
                   <Button
                     hidden={!this.props.loggedInUser}
                     onClick={this.props.logoutUser}
                     color="secondary"
-                    outline
                   >
                     Logout
                   </Button>
                 );
               }}
-            />
+
+            /> */}
+            <NavItem>
+              <NavLink
+                activeClassName="active"
+                hidden={!this.props.loggedInUser}
+                className="nav-link"
+                to="/login"
+                onClick={this.props.logoutUser}
+              >
+                logout
+              </NavLink>
+            </NavItem>
+            {/* tag=
+            {() => {
+              return (
+                <Button
+                  hidden={!this.props.loggedInUser}
+                  onClick={this.props.logoutUser}
+                  color="secondary"
+                >
+                  Logout
+                </Button>
+              );
+            }}
+            /> */}
             {/* <NavLink to="/logout" onClick={this.props.logoutUser} >logout</NavLink> */}
           </Nav>
         </Navbar>

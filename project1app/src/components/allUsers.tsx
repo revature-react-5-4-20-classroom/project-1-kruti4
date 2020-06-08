@@ -2,7 +2,21 @@ import React from "react";
 // import { reactstrap } from "reactstrap";
 import { User } from "../models/Users";
 import { getAllUsers, getUsersById } from "../apis/Users";
-import { Container, Row, CardDeck, Card, Spinner, Col } from "reactstrap";
+import {
+  Container,
+  Row,
+  CardDeck,
+  Card,
+  Spinner,
+  Col,
+  Button,
+  Input,
+  Label,
+  CardBody,
+  CardFooter,
+  CardText,
+  CardHeader,
+} from "reactstrap";
 import { UserDisplayTable } from "./userDisplayTable";
 import { UpdateUser } from "./updateUserInfo";
 interface IAllUsersState {
@@ -40,7 +54,8 @@ export class AllUsers extends React.Component<any, any> {
       flag2: false,
     });
   }
-  getAllUsersData = async () => {
+  getAllUsersData = async (event: any) => {
+    event.preventDefault();
     this.setState({
       allUser: await getAllUsers(),
       flag2: true,
@@ -48,13 +63,15 @@ export class AllUsers extends React.Component<any, any> {
     });
   };
   getUserById = async (id: any) => {
+    id.preventDefault();
     this.setState({
       responceLoggedUser: await getUsersById(id.currentTarget.value),
       flag: true,
       flag2: false,
     });
   };
-  updateUser = async () => {
+  updateUser = async (event: any) => {
+    event.preventDefault();
     this.setState({
       // responce: await getUsersById(this.props.loggedInUser.userId),
       formFlag: true,
@@ -63,10 +80,7 @@ export class AllUsers extends React.Component<any, any> {
   render() {
     return (
       <>
-        <h2>{typeof this.props}</h2>
         <div style={{ display: !this.state.formFlag ? "block" : "none" }}>
-          {/* <h4>get all users</h4> */}
-          {/* <h5>{typeof this.state.responce}</h5> */}
           <Container
             style={{
               display:
@@ -78,12 +92,10 @@ export class AllUsers extends React.Component<any, any> {
           >
             <Row>
               <Col>
-                <button onClick={this.getAllUsersData}>
-                  get All Users Information
-                </button>
+                <Button onClick={this.getAllUsersData}>All Users</Button>
                 <div style={{ display: this.state.flag2 ? "block" : "none" }}>
-                  <label htmlFor="">Enter User Id</label>
-                  <input type="number" onChange={this.getUserById} />
+                  <Label htmlFor="">User Id</Label>
+                  <Input type="number" onChange={this.getUserById} />
                 </div>
                 <div style={{ display: this.state.flag2 ? "block" : "none" }}>
                   {this.state.flag2 ? (
@@ -109,33 +121,70 @@ export class AllUsers extends React.Component<any, any> {
           >
             <Row>
               <Col md={{ size: 4 }}>
-                <CardDeck className=" no-gutters ">
-                  <Card key={this.state.responceLoggedUser.userId}>
-                    <p>{this.state.responceLoggedUser.userId}</p>
-                    <p>{this.state.responceLoggedUser.firstName}</p>
-                    <p>{this.state.responceLoggedUser.lastName}</p>
-                    <p>{this.state.responceLoggedUser.userName}</p>
-                    <p>{this.state.responceLoggedUser.password}</p>
-                    <p>{this.state.responceLoggedUser.email}</p>
-                    <p>{this.state.responceLoggedUser.role}</p>
-                    <button
-                      style={{
-                        display: (this.props.loggedInUser.userId == this.state.responceLoggedUser.userId)
+                <h3>Your Information</h3>
+
+                <Card key={this.state.responceLoggedUser.userId}>
+                  <CardHeader>
+                    <strong>
+                      {" "}
+                      {this.state.responceLoggedUser.firstName}{" "}
+                      {this.state.responceLoggedUser.lastName}{" "}
+                    </strong>
+                  </CardHeader>
+
+                  <CardBody>
+                    <CardText>
+                      <p>
+                        <strong>User Id:</strong>
+                        {this.state.responceLoggedUser.userId}
+                      </p>
+                      <p>
+                        <strong>First Name:</strong>{" "}
+                        {this.state.responceLoggedUser.firstName}
+                      </p>
+                      <p>
+                        <strong>Last Name:</strong>{" "}
+                        {this.state.responceLoggedUser.lastName}
+                      </p>
+                      <p>
+                        <strong>Username:</strong>{" "}
+                        {this.state.responceLoggedUser.userName}
+                      </p>
+                      <p>
+                        <strong>Password: </strong>
+                        {this.state.responceLoggedUser.password}
+                      </p>
+                      <p>
+                        <strong>Email: </strong>
+                        {this.state.responceLoggedUser.email}
+                      </p>
+                      <p>
+                        <strong>Role: </strong>
+                        {this.state.responceLoggedUser.role}
+                      </p>
+                    </CardText>
+                  </CardBody>
+
+                  <Button
+                    style={{
+                      display:
+                        this.props.loggedInUser.userId ==
+                        this.state.responceLoggedUser.userId
                           ? "block"
                           : "none",
-                      }}
-                      onClick={this.updateUser}
-                    >
-                      update
-                    </button>
-                  </Card>
-                </CardDeck>
+                    }}
+                    onClick={this.updateUser}
+                    color="secondary"
+                  >
+                    update Information
+                  </Button>
+                </Card>
               </Col>
             </Row>
+            <br />
           </Container>
         </div>
         <div style={{ display: this.state.formFlag ? "block" : "none" }}>
-          
           <UpdateUser
             {...this.props}
             user={this.state.responceLoggedUser}

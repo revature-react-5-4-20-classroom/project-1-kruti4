@@ -4,7 +4,7 @@ import React from "react";
 import { getAllReimbursementByStatusId } from "../apis/Reimbursement";
 import Reimbursement from "../models/Reimbursement";
 // import { ObjectTable } from "./userDisplayTable";
-import { Spinner } from "reactstrap";
+import { Spinner, Container, Row, Col, Label } from "reactstrap";
 import { ReimbursementDisplayTable } from "./reimbursementDisplayTable";
 // import { Container, Row, CardDeck, Card } from "reactstrap";
 
@@ -21,6 +21,7 @@ export class AllReimbursementByStatus extends React.Component<any, any> {
     };
   }
   async componentDidMount() {
+    
     this.setState({
       responce: await getAllReimbursementByStatusId(2),
       isData: true,
@@ -32,6 +33,7 @@ export class AllReimbursementByStatus extends React.Component<any, any> {
   // });}
 
   getData = async (id: any) => {
+    id.preventDefault()
     console.log("id is" + id.currentTarget.value);
 
     await this.setState({
@@ -43,26 +45,35 @@ export class AllReimbursementByStatus extends React.Component<any, any> {
   render() {
     return (
       <>
-        <div>
-          <label htmlFor="">select reimbursement status</label>
-          <select defaultValue="2" onChange={this.getData} name="status">
-            <option value="2" >
-              Pending
-            </option>
-            <option value="1">Approved</option>
-            <option value="3">Denied</option>
-          </select>
-          {/* <h4>get all reimbursement</h4> */}
-
-          <div style={{ display: this.state.isData ? "block" : "none" }}>
-            {this.state.isData ? (
-              <ReimbursementDisplayTable objects={this.state.responce} loggedInUser={this.props.loggedInUser} />
-              // <h2>data is here</h2>
-            ) : (
-              <Spinner />
-            )}
-          </div>
-        </div>
+        <Container md={{ size: 10, offset: 1 }}>
+          <Row>
+            <Col >
+              <Label  htmlFor="">select reimbursement status: </Label>
+              <select defaultValue="2" onChange={this.getData} name="status">
+                <option value="2">Pending</option>
+                <option value="1">Approved</option>
+                <option value="3">Denied</option>
+              </select>
+              {/* <h4>get all reimbursement</h4> */}
+            </Col>
+          </Row>
+          <br/>
+          <Row>
+            <Col>
+              <div style={{ display: this.state.isData ? "block" : "none" }}>
+                {this.state.isData ? (
+                  <ReimbursementDisplayTable
+                    objects={this.state.responce}
+                    loggedInUser={this.props.loggedInUser}
+                  />
+                ) : (
+                  // <h2>data is here</h2>
+                  <Spinner />
+                )}
+              </div>
+            </Col>
+          </Row>
+        </Container>{" "}
       </>
     );
   }

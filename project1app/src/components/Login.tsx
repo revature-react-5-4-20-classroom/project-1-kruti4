@@ -104,6 +104,8 @@ export class LoginComponent extends React.Component<any, ILoginComponentState> {
         <Container>
           <Row>
             <Col md={{ size: 6, offset: 3 }}>
+              <h3>Login</h3>
+              <br/>
               <Form onSubmit={this.attemptLogin}>
                 <FormGroup >
                   <Label for="userName">userName: </Label>
@@ -119,7 +121,7 @@ export class LoginComponent extends React.Component<any, ILoginComponentState> {
                   />
                 </FormGroup>
                 <FormGroup >
-                  <Label for="password">Password</Label>
+                  <Label for="password">Password:</Label>
 
                   <Input
                     onChange={this.setPassword}
@@ -131,7 +133,7 @@ export class LoginComponent extends React.Component<any, ILoginComponentState> {
                   />
                 </FormGroup>
                 <FormGroup>
-                  <Button color="info">Submit</Button>
+                  <Button color="secondary">Submit</Button>
                 </FormGroup>
               </Form>
             </Col>

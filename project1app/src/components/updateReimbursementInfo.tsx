@@ -1,7 +1,16 @@
 import React from "react";
 import Reimbursement from "../models/Reimbursement";
 import { updateReimburement } from "../apis/Reimbursement";
-import { Container, Row, Col } from "reactstrap";
+import {
+  Container,
+  Row,
+  Col,
+  Form,
+  Label,
+  FormGroup,
+  Input,
+  Button,
+} from "reactstrap";
 interface IUpdateReimbursementFormProps {
   addReimbursement: () => void;
 }
@@ -34,9 +43,14 @@ export class UpdateReimburement extends React.Component<any, any> {
       this.state.status,
       this.props.reimbursement.type
     );
-    this.setState({
-      Response: await updateReimburement(reOb),
-    });
+    try{
+      this.setState({
+        Response: await updateReimburement(reOb),
+      });
+    }catch(e){
+      console.log(e)
+    }
+    
     // reimbursementId,
     // author,
     // amount,
@@ -83,92 +97,115 @@ export class UpdateReimburement extends React.Component<any, any> {
   render() {
     return (
       <>
-      <Container>
-        <Row>
-          <Col></Col>
-        </Row>
-      </Container>
-        <form onSubmit={this.formSubmit}>
-          <label>Reimbursement type:</label>
-          <select
-            id="type"
-            required
-            onChange={this.bindInputChangeToState}
-            name="type"
-            defaultValue={this.props.reimbursement.type}
-            disabled
-          >
-            <option defaultValue="1">Lodging</option>
-            <option value="2">Travel</option>
-            <option value="3">Food</option>
-            <option value="4">Other</option>
-          </select>
-          <label htmlFor="">Amount:$</label>
-          <input
-            disabled
-            type="number"
-            id="amount"
-            name="amount"
-            defaultValue={this.props.reimbursement.amount}
-            required
-            onChange={this.bindInputChangeToState}
-          />
-          {/* <label htmlFor="">Recipt image</label>
-          <input type="file" required /> */}
-          <label htmlFor="">Date:</label>
-          <input
-            type="string"
-            name="dateSubmitted"
-            id="dateSubmitted"
-            value={this.props.reimbursement.dateSubmitted}
-            disabled
-          ></input>
-          {/* <label htmlFor="">Date:</label> */}
-          <input
-            type="date"
-            name="dateResolved"
-            id="dateResolved"
-            value={new Date().toISOString().substring(0, 10)}
-            disabled
-          ></input>
-          <label htmlFor="">Discription</label>
-          <input
-            type="text"
-            id="description"
-            name="description"
-            required
-            value={this.props.reimbursement.description}
-            disabled
-            onChange={this.bindInputChangeToState}
-          />
-          <label htmlFor="">Resolver</label>
-          <input
-            type="number"
-            id="resolver"
-            name="resolver"
-            required
-            defaultValue={this.props.reimbursement.resolver}
-            disabled
-            onChange={this.bindInputChangeToState}
-          />
-          <button
-            type="submit"
-            onClick={this.bindInputChangeToState}
-            name="status"
-            value="1"
-          >
-            Aproved
-          </button>
-          <button
-            type="submit"
-            onClick={this.bindInputChangeToState}
-            name="status"
-            value="3"
-          >
-            Declined
-          </button>
-          {/* <button type="submit">Submit</button> */}
-        </form>
+        <Container>
+          <Row>
+            <Col sm="12" md={{ size: 6, offset: 3 }}>
+              <h3>Update Reimbursement</h3>
+              <br/>
+              <Form onSubmit={this.formSubmit}>
+                <FormGroup>
+                  <Label>Reimbursement type:</Label>
+                  <select
+                    id="type"
+                    required
+                    onChange={this.bindInputChangeToState}
+                    name="type"
+                    defaultValue={this.props.reimbursement.type}
+                    disabled
+                  >
+                    <option defaultValue="1">Lodging</option>
+                    <option value="2">Travel</option>
+                    <option value="3">Food</option>
+                    <option value="4">Other</option>
+                  </select>
+                </FormGroup>
+                <FormGroup>
+                  <Label htmlFor="">Amount: $</Label>
+                  <Input
+                    disabled
+                    type="number"
+                    id="amount"
+                    name="amount"
+                    defaultValue={this.props.reimbursement.amount}
+                    required
+                    onChange={this.bindInputChangeToState}
+                  />
+                </FormGroup>
+                <FormGroup>
+                  <Label htmlFor="">Submite Date:</Label>
+                  <Input
+                  disabled
+                    type="text"
+                    name="dateSubmitted"
+                    id="dateSubmitted"
+                    value={this.props.reimbursement.dateSubmitted}
+                  />
+                </FormGroup>
+
+                <FormGroup>
+                  <Label htmlFor="">Resolve date:</Label>
+                  <input
+                    type="date"
+                    name="dateResolved"
+                    id="dateResolved"
+                    value={new Date().toISOString().substring(0, 10)}
+                    disabled
+                  />
+                </FormGroup>
+                <FormGroup>
+                  <Label htmlFor="">Discription:</Label>
+                  <Input
+                    type="text"
+                    id="description"
+                    name="description"
+                    required
+                    value={this.props.reimbursement.description}
+                    disabled
+                    onChange={this.bindInputChangeToState}
+                  />
+                </FormGroup>
+                <FormGroup>
+                  <Label htmlFor="">Resolver</Label>
+                  <Input
+                    type="number"
+                    id="resolver"
+                    name="resolver"
+                    required
+                    defaultValue={this.props.reimbursement.resolver}
+                    disabled
+                    onChange={this.bindInputChangeToState}
+                  />
+                </FormGroup>
+                <Row>
+                  <Col sm={{ size: 'auto', offset: 0 }}>
+                    <Button
+                      type="submit"
+                      onClick={this.bindInputChangeToState}
+                      name="status"
+                      value="1"
+                    
+                    >
+                      Approve
+                    </Button>
+                  </Col>
+
+                  <Col md={{ size: 'auto', offset: 0 }}>
+                    <Button
+                      type="submit"
+                      onClick={this.bindInputChangeToState}
+                      name="status"
+                      value="3"
+                    >
+                      Reject
+                    </Button>
+                  </Col>
+                </Row>
+                {/* <button type="submit">Submit</button> */}
+              </Form>
+            </Col>
+          </Row>
+        </Container>
+        <br/>
       </>
     );
   }

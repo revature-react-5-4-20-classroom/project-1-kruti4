@@ -2,7 +2,7 @@ import React from "react";
 // import { UserDisplayTable } from "./userDisplayTable";
 import { updateUser } from "../apis/Users";
 import { User } from "../models/Users";
-import { FormGroup, Form, Label, Container, Row, Col, Input } from "reactstrap";
+import { FormGroup, Form, Label, Container, Row, Col, Input, Button } from "reactstrap";
 import { login } from "../apis/Login";
 interface IUpdateUserState {
   userId: number;
@@ -90,6 +90,8 @@ export class UpdateUser extends React.Component<any, IUpdateUserState> {
         <Container className="right">
           <Row>
             <Col md={{ size: 6, offset: 3 }}>
+              <h3>Update Information</h3>
+              <br/>
               <Form
                 onSubmit={this.update}
                 onLoadStart={this.bindInputChangeToState}
@@ -130,7 +132,7 @@ export class UpdateUser extends React.Component<any, IUpdateUserState> {
                   />
                 </FormGroup>
                 <FormGroup>
-                  <Label htmlFor="">password:: </Label>
+                  <Label htmlFor="">password: </Label>
                   <Input
                     type="text"
                     name="password"
@@ -157,12 +159,13 @@ export class UpdateUser extends React.Component<any, IUpdateUserState> {
                   />
                 </FormGroup>
                 <FormGroup>
-                  <button type="submit">Update</button>
+                  <Button color="secondary"  type="submit">Update</Button>
                 </FormGroup>
               </Form>
             </Col>
           </Row>
         </Container>
+        <br/>
       </>
     );
   }

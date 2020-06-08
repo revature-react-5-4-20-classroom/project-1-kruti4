@@ -24,8 +24,8 @@ export class ReimbursementDisplayTable extends React.Component<
   }
   callUpdate = (event: any) => {
     // event.preventDefault();
-    console.log(event);
-    
+    // console.log(event);
+
     this.setState({
       ReimbursementrObj: event,
       flag: true,
@@ -47,6 +47,7 @@ export class ReimbursementDisplayTable extends React.Component<
               {Object.keys(this.props.objects[0]).map((key: any) => {
                 return <th key={key}>{key}</th>;
               })}
+              
             </tr>
           </thead>
           <tbody>
@@ -65,8 +66,13 @@ export class ReimbursementDisplayTable extends React.Component<
                           : "none",
                     }}
                   >
-                    <Button value={obj}
-                      onClick={(e)=>{e.preventDefault();this.callUpdate(obj)}}
+                    <Button
+                      value={obj}
+                      hidden={obj.status != 2}
+                      onClick={(e) => {
+                        e.preventDefault();
+                        this.callUpdate(obj);
+                      }}
                       // name="ReimbursementrObj"
                       // object={obj}
                     >

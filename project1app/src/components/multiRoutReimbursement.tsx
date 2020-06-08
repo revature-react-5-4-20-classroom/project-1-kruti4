@@ -3,7 +3,7 @@ import { Switch, Route, Router } from "react-router";
 
 import { AllReimbursementByStatus } from "./allReimbursementByStatus";
 import { AllReimbursementByUser } from "./allReimbursmentByUser";
-import { Nav, Navbar, NavItem } from "reactstrap";
+import { Nav, Navbar, NavItem, Button } from "reactstrap";
 import { NavLink } from "react-router-dom";
 import { SubmitNewReimbursement } from "./SubmitReimbursement";
 
@@ -18,14 +18,19 @@ export class MultiRoute extends React.Component<any, any> {
   render() {
     return (
       <>
-        <Navbar color="light" light expand="md">
+        <Navbar expand="md">
           <Nav className="mr-auto" navbar>
+            <NavItem>
+              <NavLink to="/reimbursement" hidden={!this.props.loggedInUser}>
+                <Button>Submit New Request</Button>
+              </NavLink>
+            </NavItem>
             <NavItem>
               <NavLink
                 to="/reimbursement/status"
                 hidden={!this.props.loggedInUser}
               >
-                Status Id
+                <Button> Status Id</Button>
               </NavLink>
             </NavItem>
             <NavItem>
@@ -33,12 +38,7 @@ export class MultiRoute extends React.Component<any, any> {
                 to="/reimbursement/author/userId"
                 hidden={!this.props.loggedInUser}
               >
-                User Id
-              </NavLink>
-            </NavItem>
-            <NavItem>
-              <NavLink to="/reimbursement" hidden={!this.props.loggedInUser}>
-                Submit New Request
+                <Button> User Id</Button>
               </NavLink>
             </NavItem>
           </Nav>
@@ -52,6 +52,8 @@ export class MultiRoute extends React.Component<any, any> {
                 path={`${this.props.path}/status`}
                 loggedInUser={this.props.loggedInUser}
               />
+            ) : !this.props.loggedInUser ? (
+              <h4>Please Login</h4>
             ) : (
               <h4>Only Finance Manager can see all users</h4>
             )}
@@ -70,7 +72,14 @@ export class MultiRoute extends React.Component<any, any> {
           </Route>
 
           <Route path={`${this.props.path}`}>
-            <SubmitNewReimbursement loggedInUser={this.props.loggedInUser} path={`${this.props.path}`}/>
+            {this.props.loggedInUser && true ? (
+              <SubmitNewReimbursement
+                loggedInUser={this.props.loggedInUser}
+                path={`${this.props.path}`}
+              />
+            ) : (
+              <h4>Please Login</h4>
+            )}
           </Route>
         </Switch>
       </>

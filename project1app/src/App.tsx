@@ -10,6 +10,7 @@ import {
 import { User } from "./models/Users";
 import { AllUsers } from "./components/allUsers";
 import { MultiRoute } from "./components/multiRoutReimbursement";
+import { Jumbotron } from "reactstrap";
 
 interface IAppState {
   loggedInUser: User | null;
@@ -51,6 +52,11 @@ export class App extends React.Component<any, IAppState> {
               logoutUser={this.logoutUser}
               loggedInUser={this.state.loggedInUser}
             />
+            <Jumbotron>
+              <h1 className="display-4">
+                <span role="img">$ Expense Reimbursement System $</span>
+              </h1>
+            </Jumbotron>
             <Switch>
               <Route exact path="/">
                 {this.state.loggedInUser ? (
@@ -63,7 +69,11 @@ export class App extends React.Component<any, IAppState> {
                 path="/login"
                 render={(props: any) => {
                   return (
-                    <LoginComponent {...props} path="/login" updateUser={this.updateUser} />
+                    <LoginComponent
+                      {...props}
+                      path="/login"
+                      updateUser={this.updateUser}
+                    />
                   );
                 }}
               />
@@ -77,16 +87,21 @@ export class App extends React.Component<any, IAppState> {
                     : "guest!"}
                 </h2>
               </Route>
-              <Route
-                loggedInUser={this.state.loggedInUser}
-                path="/users"
-                // component={AllUsers}
-                // users={this.updateUser}
-              >
-                <AllUsers loggedInUser={this.state.loggedInUser} path="/users" />
+              <Route loggedInUser={this.state.loggedInUser} path="/users">
+                {this.state.loggedInUser && true ? (
+                  <AllUsers
+                    loggedInUser={this.state.loggedInUser}
+                    path="/users"
+                  />
+                ) : (
+                  <h4>Please Login</h4>
+                )}
               </Route>
               <Route>
-                <MultiRoute loggedInUser={this.state.loggedInUser} path="/reimbursement"/>
+                <MultiRoute
+                  loggedInUser={this.state.loggedInUser}
+                  path="/reimbursement"
+                />
               </Route>
               <Route path="/logout"></Route>
             </Switch>

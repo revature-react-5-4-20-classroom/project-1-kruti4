@@ -1,6 +1,7 @@
 import React from "react";
 import Reimbursement from "../models/Reimbursement";
 import { submitReimbursement } from "../apis/Reimbursement";
+
 import {
   Container,
   Row,
@@ -10,6 +11,9 @@ import {
   FormGroup,
   Input,
   Label,
+  InputGroupText,
+  InputGroup,
+  InputGroupAddon,
 } from "reactstrap";
 interface INewReimbursementFormProps {
   addReimbursement: () => void;
@@ -107,12 +111,20 @@ export class SubmitNewReimbursement extends React.Component<any, any> {
     return (
       <>
         <Container>
+
           <Row>
             <Col md={{ size: 6, offset: 3 }}>
+              <h3>Reimbursement Form</h3>
+              <br/>
               <Form onSubmit={this.formSubmit}>
                 <FormGroup>
                   <Label>Reimbursement type: </Label>
                   <select
+                    // style={{
+                    //   borderBottom: "2px dotted green",
+                    //   color: "black",
+                    //   backgroundColor: "white",
+                    // }}
                     id="type"
                     required
                     onChange={this.bindInputChangeToState}
@@ -122,19 +134,23 @@ export class SubmitNewReimbursement extends React.Component<any, any> {
                     <option value="1">Lodging</option>
                     <option value="2">Travel</option>
                     <option value="3">Food</option>
-                    
                   </select>
                 </FormGroup>
                 <FormGroup>
-                  <Label htmlFor="">Amount:$</Label>
-                  <Input
-                    type="number"
-                    id="amount"
-                    name="amount"
-                    value={this.state.amount}
-                    required
-                    onChange={this.bindInputChangeToState}
-                  />
+                  <Label htmlFor="">Amount:</Label>
+                  <InputGroup>
+                    <InputGroupAddon addonType="prepend">$</InputGroupAddon>
+                    <Input
+                      placeholder="Amount"
+                      type="number"
+                      id="amount"
+                      name="amount"
+                      value={this.state.amount}
+                      required
+                      onChange={this.bindInputChangeToState}
+                    />
+                    <InputGroupAddon addonType="append">.00</InputGroupAddon>
+                  </InputGroup>
                 </FormGroup>
                 <FormGroup>
                   <label htmlFor="">Date:</label>
@@ -149,7 +165,7 @@ export class SubmitNewReimbursement extends React.Component<any, any> {
                 </FormGroup>
                 <FormGroup>
                   <Input
-                  value={this.state.dateResolved}
+                    value={this.state.dateResolved}
                     type="date"
                     name="dateResolved"
                     id="dateResolved"
@@ -158,9 +174,9 @@ export class SubmitNewReimbursement extends React.Component<any, any> {
                   />
                 </FormGroup>
                 <FormGroup>
-                  <Label htmlFor="">Description</Label>
+                  <Label htmlFor="">Description:</Label>
                   <Input
-                  value={this.state.description}
+                    value={this.state.description}
                     type="text"
                     id="description"
                     name="description"
@@ -169,9 +185,9 @@ export class SubmitNewReimbursement extends React.Component<any, any> {
                   />
                 </FormGroup>
                 <FormGroup>
-                  <Label htmlFor="">Resolver</Label>
+                  <Label htmlFor="">Resolver:</Label>
                   <Input
-                  value={this.state.resolver}
+                    value={this.state.resolver}
                     type="number"
                     id="resolver"
                     name="resolver"
@@ -179,13 +195,13 @@ export class SubmitNewReimbursement extends React.Component<any, any> {
                     onChange={this.bindInputChangeToState}
                   />
                 </FormGroup>
-                
-                  <Button type="submit">Submit</Button>
-                
+
+                <Button type="submit">Submit</Button>
               </Form>
             </Col>
           </Row>
         </Container>
+        <br/>
       </>
     );
   }
